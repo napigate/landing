@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NapiGate | Lightweight API Gateway</title>
+    <meta
+      name="description"
+      content="NapiGate is a lightweight, config-driven API gateway with scoped clients, trusted hooks, built-in monitoring, and a clean operational surface."
+    >
+    <meta name="theme-color" content="#1a73e8">
+    <meta property="og:title" content="NapiGate">
+    <meta
+      property="og:description"
+      content="A clean, config-driven API gateway for teams that want control without platform overhead."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="page-bg" aria-hidden="true">
+      <span class="orb orb-blue"></span>
+      <span class="orb orb-green"></span>
+      <span class="orb orb-yellow"></span>
+    </div>
+
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="NapiGate home">
+          <span class="brand-mark">
+            <span class="bar blue"></span>
+            <span class="bar green"></span>
+            <span class="bar yellow"></span>
+            <span class="bar red"></span>
+          </span>
+          <span class="brand-copy">
+            <strong>NapiGate</strong>
+            <small>Config-driven API gateway</small>
+          </span>
+        </a>
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          Menu
+        </button>
+
+        <nav class="nav" id="site-nav">
+          <a href="#product">Product</a>
+          <a href="#control">Control</a>
+          <a href="#config">Config</a>
+          <a href="#deploy">Deploy</a>
+          <a class="nav-cta" href="#deploy">Get started</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy" data-reveal>
+            <p class="eyebrow">Small runtime. Clear edges. Better operator ergonomics.</p>
+            <h1>Run your API edge without buying into a platform.</h1>
+            <p class="lead">
+              NapiGate gives teams a clean gateway layer for routing, scoped client authentication,
+              trusted inline hooks, OAuth client credentials, and built-in monitoring, all with a
+              straightforward YAML contract.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#deploy">Start deploying</a>
+              <a class="button button-secondary" href="#config">Explore the config</a>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-card">
+                <strong data-count="6">6</strong>
+                <span>supported auth types</span>
+              </div>
+              <div class="stat-card">
+                <strong data-count="3">3</strong>
+                <span>runtime dependencies</span>
+              </div>
+              <div class="stat-card">
+                <strong data-count="1">1</strong>
+                <span>gateway contract to reason about</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual" data-reveal>
+            <div class="product-frame">
+              <div class="frame-header">
+                <div class="frame-tabs" role="tablist" aria-label="NapiGate live preview tabs">
+                  <button class="frame-tab is-active" type="button" data-preview-tab="live" aria-selected="true">
+                    Live
+                  </button>
+                  <button class="frame-tab" type="button" data-preview-tab="auth" aria-selected="false">
+                    Auth
+                  </button>
+                  <button class="frame-tab" type="button" data-preview-tab="config" aria-selected="false">
+                    Config
+                  </button>
+                </div>
+
+                <div class="frame-status">
+                  <span class="pill">/__admin</span>
+                  <span class="live-badge">
+                    <span class="live-dot"></span>
+                    Live
+                  </span>
+                </div>
+              </div>
+
+              <div class="preview-panel is-active" data-preview-panel="live">
+                <div class="dashboard-card dashboard-main">
+                  <div class="dashboard-head">
+                    <div>
+                      <p class="mini-label">Gateway overview</p>
+                      <h2>NapiGate operations</h2>
+                    </div>
+                    <span class="health-dot">Healthy</span>
+                  </div>
+
+                  <div class="dashboard-grid">
+                    <article class="mini-panel">
+                      <p>Services</p>
+                      <strong>12</strong>
+                      <small>Public and protected routes</small>
+                    </article>
+                    <article class="mini-panel">
+                      <p>Clients</p>
+                      <strong>31</strong>
+                      <small>Scoped by service or endpoint</small>
+                    </article>
+                    <article class="mini-panel">
+                      <p>Latency</p>
+                      <strong>42ms</strong>
+                      <small>Median upstream roundtrip</small>
+                    </article>
+                  </div>
+
+                  <div class="activity-card">
+                    <div class="activity-row">
+                      <span class="status status-green"></span>
+                      <span>protected_headers</span>
+                      <small>OAuth client credentials</small>
+                      <strong>200</strong>
+                    </div>
+                    <div class="activity-row">
+                      <span class="status status-blue"></span>
+                      <span>public_ip</span>
+                      <small>Public route</small>
+                      <strong>200</strong>
+                    </div>
+                    <div class="activity-row">
+                      <span class="status status-yellow"></span>
+                      <span>external_service</span>
+                      <small>Custom validation</small>
+                      <strong>401</strong>
+                    </div>
+                  </div>
+
+                  <div class="frame-actions">
+                    <a class="button button-secondary frame-button" href="/__monitor">Show log table</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="preview-panel" data-preview-panel="auth">
+                <div class="preview-card preview-card-auth">
+                  <div class="preview-head">
+                    <div>
+                      <p class="mini-label">Authentication surface</p>
+                      <h3>Multiple ways in, one clean client model</h3>
+                    </div>
+                    <span class="pill pill-blue">Scoped clients</span>
+                  </div>
+                  <div class="chip-row">
+                    <span>api_key</span>
+                    <span>bearer</span>
+                    <span>basic</span>
+                    <span>header_key</span>
+                    <span>oauth_client_credentials</span>
+                    <span>external_service</span>
+                  </div>
+                  <div class="preview-note-grid">
+                    <article class="preview-note">
+                      <strong>Client scopes</strong>
+                      <p>Authenticate against all services, selected services, or exact endpoints.</p>
+                    </article>
+                    <article class="preview-note">
+                      <strong>Credential hygiene</strong>
+                      <p>Consumed secrets are stripped before upstream forwarding.</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+
+              <div class="preview-panel" data-preview-panel="config">
+                <div class="preview-card preview-card-code">
+                  <div class="preview-head">
+                    <div>
+                      <p class="mini-label">Readable config</p>
+                      <h3>Review gateway behavior directly from YAML</h3>
+                    </div>
+                    <span class="pill">Validated</span>
+                  </div>
+                  <pre><code>clients:
+  - code: demo_portal
+    title: Demo Portal
+    access:
+      mode: services
+      services: [protected_httpbin]
+    auth_methods:
+      - code: portal_api_key
+        type: api_key
+
+services:
+  protected_httpbin:
+    auth: { required: true }</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-strip" id="product">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Product overview</p>
+            <h2>Everything important stays visible.</h2>
+            <p>
+              NapiGate keeps the moving pieces small enough to understand: route matching, client
+              access scope, auth methods, trusted hooks, upstream forwarding, and operational logs.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card" data-reveal>
+              <span class="feature-icon blue"></span>
+              <h3>Scoped clients</h3>
+              <p>Attach multiple auth methods to each client and scope access to all services, selected services, or selected endpoints.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <span class="feature-icon green"></span>
+              <h3>Trusted hooks</h3>
+              <p>Use <span class="mono">pre_call</span> and <span class="mono">external_service</span> for downstream preparation and custom validation flows.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <span class="feature-icon yellow"></span>
+              <h3>Built-in operations</h3>
+              <p>Admin UI, monitor table, JSON logs, live stream, and rotating file logs are part of the default product surface.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-split" id="control">
+          <div class="content-card" data-reveal>
+            <p class="eyebrow">Operational control</p>
+            <h2>Keep admin and monitor features close to the runtime.</h2>
+            <ul class="detail-list">
+              <li>File-backed users and roles with explicit permissions</li>
+              <li>Bootstrap admin support through environment variables</li>
+              <li>Live request visibility through HTML, JSON, and SSE endpoints</li>
+              <li>Daily file log rotation with SQLite-backed request history</li>
+            </ul>
+          </div>
+
+          <div class="content-card tone-blue" data-reveal>
+            <p class="eyebrow">Request lifecycle</p>
+            <ol class="timeline">
+              <li>Match the incoming method and path.</li>
+              <li>Resolve client scope and authenticate the request.</li>
+              <li>Run trusted hook code when configured.</li>
+              <li>Render templates, proxy upstream, and record monitoring data.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="section-strip alt" id="config">
+          <div class="section-heading narrow" data-reveal>
+            <p class="eyebrow">Config model</p>
+            <h2>Readable enough to review in a pull request.</h2>
+          </div>
+
+          <div class="config-layout">
+            <article class="config-panel" data-reveal>
+              <pre><code>clients:
+  - code: partner_ops
+    title: Partner Operations
+    enabled: true
+    access:
+      mode: endpoints
+      endpoints:
+        - service: protected_httpbin
+          endpoint: protected_headers
+    auth_methods:
+      - code: partner_oauth
+        type: oauth_client_credentials
+        client_id: demo-client-id
+        client_secret: demo-client-secret</code></pre>
+            </article>
+
+            <article class="config-notes" data-reveal>
+              <h3>What stays simple</h3>
+              <div class="note-list">
+                <div>
+                  <strong>One top-level client model</strong>
+                  <p>No service-local client blocks to track down later.</p>
+                </div>
+                <div>
+                  <strong>Service auth is binary</strong>
+                  <p>Protected or public, with scope handled by client access rules.</p>
+                </div>
+                <div>
+                  <strong>Config validation is strict</strong>
+                  <p>Deprecated shapes and broken access references are rejected early.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-strip" id="deploy">
+          <div class="section-heading narrow" data-reveal>
+            <p class="eyebrow">Deployment</p>
+            <h2>Publish the product site anywhere. Run the gateway wherever you already operate.</h2>
+          </div>
+
+          <div class="deploy-grid">
+            <article class="deploy-card" data-reveal>
+              <h3>Local</h3>
+              <pre><code>cp config/services.example.yaml config/services.yaml
+cp config/security.example.yaml config/security.yaml
+python3 -m gateway.main --host 0.0.0.0 --port 8000</code></pre>
+            </article>
+            <article class="deploy-card" data-reveal>
+              <h3>Docker</h3>
+              <pre><code>cp .env.example .env
+cp config/services.example.yaml config/services.yaml
+cp config/security.example.yaml config/security.yaml
+docker compose up -d --build</code></pre>
+            </article>
+            <article class="deploy-card" data-reveal>
+              <h3>Static landing</h3>
+              <p>This site is plain HTML, CSS, and JS, so it can go directly to GitHub Pages or a custom domain without a build pipeline.</p>
+              <a class="inline-link" href="#top">Back to the top</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="cta-band" data-reveal>
+          <div>
+            <p class="eyebrow">For teams that still read their own infrastructure</p>
+            <h2>NapiGate keeps the gateway understandable.</h2>
+          </div>
+          <a class="button button-primary" href="#deploy">Deploy NapiGate</a>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>NapiGate landing page.</p>
+        <p><span id="year"></span> • Ready for GitHub Pages or a custom domain.</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
