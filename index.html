@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NapiGate | Lightweight API Gateway</title>
+    <title>NapiGate | Route-Centric API Gateway</title>
     <meta
       name="description"
-      content="NapiGate is a lightweight, config-driven API gateway with scoped clients, trusted hooks, built-in monitoring, and a clean operational surface."
+      content="NapiGate is a lightweight, route-centric API gateway with scoped clients, built-in admin and monitor surfaces, published Docker images, and optional Postgres or Redis backends."
     >
     <meta name="theme-color" content="#1a73e8">
     <link rel="canonical" href="https://napigate.com/">
@@ -15,7 +15,7 @@
     <meta property="og:url" content="https://napigate.com/">
     <meta
       property="og:description"
-      content="A clean, config-driven API gateway for teams that want control without platform overhead."
+      content="Install a readable API gateway in minutes with the published napigate/napigate Docker image or from source."
     >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,7 +43,7 @@
           </span>
           <span class="brand-copy">
             <strong>NapiGate</strong>
-            <small>Config-driven API gateway</small>
+            <small>Route-centric API gateway</small>
           </span>
         </a>
 
@@ -52,41 +52,47 @@
         </button>
 
         <nav class="nav" id="site-nav">
-          <a href="#product">Product</a>
-          <a href="#control">Control</a>
+          <a href="#product">Overview</a>
+          <a href="#control">Operations</a>
           <a href="#config">Config</a>
-          <a href="#deploy">Deploy</a>
+          <a href="#install">Install</a>
           <a href="https://github.com/napigate/napigate">GitHub</a>
-          <a class="nav-cta" href="https://github.com/napigate/napigate">Get started</a>
+          <a class="nav-cta" href="https://hub.docker.com/repository/docker/napigate/napigate/general">Run image</a>
         </nav>
       </header>
 
       <main id="top">
         <section class="hero">
           <div class="hero-copy" data-reveal>
-            <p class="eyebrow">Small runtime. Clear edges. Better operator ergonomics.</p>
-            <h1>Run your API edge without buying into a platform.</h1>
+            <p class="eyebrow">Published Docker image. Built-in control plane. Config you can still read later.</p>
+            <h1>Install a real API gateway without adopting a platform.</h1>
             <p class="lead">
-              NapiGate gives teams a clean gateway layer for routing, scoped client authentication,
-              trusted inline hooks, OAuth client credentials, and built-in monitoring, all with a
-              straightforward YAML contract.
+              NapiGate keeps the edge small and explicit: route-level protection, scoped clients,
+              multiple auth methods, output profiles, response caching, trusted hooks, built-in
+              monitor surfaces, and a published Docker image at <span class="mono">napigate/napigate</span>.
             </p>
             <div class="hero-actions">
-              <a class="button button-primary" href="https://github.com/napigate/napigate">Start from GitHub</a>
-              <a class="button button-secondary" href="#config">Explore the config</a>
+              <a class="button button-primary" href="https://hub.docker.com/repository/docker/napigate/napigate/general">Run from Docker Hub</a>
+              <a class="button button-secondary" href="#install">See install methods</a>
+            </div>
+            <div class="hero-badges">
+              <span class="pill">Image: napigate/napigate</span>
+              <span class="pill">Public port: 8000</span>
+              <span class="pill">Admin port: 8001</span>
+              <span class="pill">State: file or Postgres</span>
             </div>
             <div class="hero-stats">
+              <div class="stat-card">
+                <strong data-count="4">4</strong>
+                <span>route strategies</span>
+              </div>
               <div class="stat-card">
                 <strong data-count="6">6</strong>
                 <span>supported auth types</span>
               </div>
               <div class="stat-card">
-                <strong data-count="3">3</strong>
-                <span>runtime dependencies</span>
-              </div>
-              <div class="stat-card">
-                <strong data-count="1">1</strong>
-                <span>gateway contract to reason about</span>
+                <strong data-count="2">2</strong>
+                <span>listener surfaces by default</span>
               </div>
             </div>
           </div>
@@ -94,15 +100,15 @@
           <div class="hero-visual" data-reveal>
             <div class="product-frame">
               <div class="frame-header">
-                <div class="frame-tabs" role="tablist" aria-label="NapiGate live preview tabs">
+                <div class="frame-tabs" role="tablist" aria-label="NapiGate preview tabs">
                   <button class="frame-tab is-active" type="button" data-preview-tab="live" aria-selected="true">
                     Live
                   </button>
-                  <button class="frame-tab" type="button" data-preview-tab="auth" aria-selected="false">
-                    Auth
+                  <button class="frame-tab" type="button" data-preview-tab="routes" aria-selected="false">
+                    Routes
                   </button>
-                  <button class="frame-tab" type="button" data-preview-tab="config" aria-selected="false">
-                    Config
+                  <button class="frame-tab" type="button" data-preview-tab="install" aria-selected="false">
+                    Install
                   </button>
                 </div>
 
@@ -110,7 +116,7 @@
                   <span class="pill">/__admin</span>
                   <span class="live-badge">
                     <span class="live-dot"></span>
-                    Live
+                    Operator-ready
                   </span>
                 </div>
               </div>
@@ -119,7 +125,7 @@
                 <div class="dashboard-card dashboard-main">
                   <div class="dashboard-head">
                     <div>
-                      <p class="mini-label">Gateway overview</p>
+                      <p class="mini-label">Runtime surface</p>
                       <h2>NapiGate operations</h2>
                     </div>
                     <span class="health-dot">Healthy</span>
@@ -127,19 +133,19 @@
 
                   <div class="dashboard-grid">
                     <article class="mini-panel">
-                      <p>Services</p>
-                      <strong>12</strong>
-                      <small>Public and protected routes</small>
+                      <p>Routes</p>
+                      <strong>24</strong>
+                      <small>single, failover, race, and round robin</small>
                     </article>
                     <article class="mini-panel">
                       <p>Clients</p>
                       <strong>31</strong>
-                      <small>Scoped by service or endpoint</small>
+                      <small>scoped by service or exact endpoint</small>
                     </article>
                     <article class="mini-panel">
-                      <p>Latency</p>
-                      <strong>&lt;1ms</strong>
-                      <small>Median upstream roundtrip</small>
+                      <p>State</p>
+                      <strong>RAM</strong>
+                      <small>hot path never reads config from Postgres</small>
                     </article>
                   </div>
 
@@ -147,81 +153,76 @@
                     <div class="activity-row">
                       <span class="status status-green"></span>
                       <span>protected_headers</span>
-                      <small>OAuth client credentials</small>
+                      <small>route auth + output profile + cache</small>
                       <strong>200</strong>
                     </div>
                     <div class="activity-row">
                       <span class="status status-blue"></span>
-                      <span>public_ip</span>
-                      <small>Public route</small>
+                      <span>public_ip_failover</span>
+                      <small>multi-target failover route</small>
                       <strong>200</strong>
                     </div>
                     <div class="activity-row">
                       <span class="status status-yellow"></span>
-                      <span>external_service</span>
-                      <small>Custom validation</small>
-                      <strong>401</strong>
+                      <span>admin_audit</span>
+                      <small>separate admin listener on port 8001</small>
+                      <strong>OK</strong>
                     </div>
                   </div>
 
                   <div class="frame-actions">
-                    <a class="button button-secondary frame-button" href="https://github.com/napigate/napigate">Open repository</a>
+                    <a class="button button-secondary frame-button" href="#install">Install NapiGate</a>
                   </div>
                 </div>
               </div>
 
-              <div class="preview-panel" data-preview-panel="auth">
-                <div class="preview-card preview-card-auth">
-                  <div class="preview-head">
-                    <div>
-                      <p class="mini-label">Authentication surface</p>
-                      <h3>Multiple ways in, one clean client model</h3>
-                    </div>
-                    <span class="pill pill-blue">Scoped clients</span>
-                  </div>
-                  <div class="chip-row">
-                    <span>api_key</span>
-                    <span>bearer</span>
-                    <span>basic</span>
-                    <span>header_key</span>
-                    <span>oauth_client_credentials</span>
-                    <span>external_service</span>
-                  </div>
-                  <div class="preview-note-grid">
-                    <article class="preview-note">
-                      <strong>Client scopes</strong>
-                      <p>Authenticate against all services, selected services, or exact endpoints.</p>
-                    </article>
-                    <article class="preview-note">
-                      <strong>Credential hygiene</strong>
-                      <p>Consumed secrets are stripped before upstream forwarding.</p>
-                    </article>
-                  </div>
-                </div>
-              </div>
-
-              <div class="preview-panel" data-preview-panel="config">
+              <div class="preview-panel" data-preview-panel="routes">
                 <div class="preview-card preview-card-code">
                   <div class="preview-head">
                     <div>
-                      <p class="mini-label">Readable config</p>
-                      <h3>Review gateway behavior directly from YAML</h3>
+                      <p class="mini-label">Route contract</p>
+                      <h3>Protection, targets, and output stay with the route.</h3>
                     </div>
                     <span class="pill">Validated</span>
                   </div>
-                  <pre><code>clients:
-  - code: demo_portal
-    title: Demo Portal
-    access:
-      mode: services
-      services: [protected_httpbin]
-    auth_methods:
-      - code: portal_api_key
-        type: api_key
+                  <pre><code>routes:
+  - slug: protected-headers
+    gateway_path: /demo/headers
+    methods: [GET]
+    strategy: single
+    auth: { required: true }
+    output_profile: standard_json
+    targets:
+      - service: protected_httpbin
+        endpoint: protected_headers
 
 services:
   protected_httpbin:
-    auth: { required: true }</code></pre>
+    base_url: https://httpbin.org</code></pre>
+                </div>
+              </div>
+
+              <div class="preview-panel" data-preview-panel="install">
+                <div class="preview-card preview-card-code">
+                  <div class="preview-head">
+                    <div>
+                      <p class="mini-label">Published image</p>
+                      <h3>Use the Docker image directly.</h3>
+                    </div>
+                    <span class="pill">napigate/napigate</span>
+                  </div>
+                  <pre><code>mkdir -p napigate/{config,data,logs}
+curl -L https://raw.githubusercontent.com/napigate/napigate/main/config/services.example.yaml -o napigate/config/services.yaml
+curl -L https://raw.githubusercontent.com/napigate/napigate/main/config/security.example.yaml -o napigate/config/security.yaml
+
+docker run -d --name napigate \
+  -p 8000:8000 -p 8001:8001 \
+  -v "$PWD/napigate/config:/code/config" \
+  -v "$PWD/napigate/data:/code/data" \
+  -v "$PWD/napigate/logs:/code/logs" \
+  -e NAPIGATE_ADMIN_USERNAME=admin \
+  -e NAPIGATE_ADMIN_PASSWORD=change-me \
+  napigate/napigate:latest</code></pre>
                 </div>
               </div>
             </div>
@@ -230,29 +231,44 @@ services:
 
         <section class="section-strip" id="product">
           <div class="section-heading" data-reveal>
-            <p class="eyebrow">Product overview</p>
-            <h2>Everything important stays visible.</h2>
+            <p class="eyebrow">Overview</p>
+            <h2>A gateway that stays understandable under real operational pressure.</h2>
             <p>
-              NapiGate keeps the moving pieces small enough to understand: route matching, client
-              access scope, auth methods, trusted hooks, upstream forwarding, and operational logs.
+              NapiGate is designed for teams that want routing, auth, shaping, caching, and
+              monitoring without dragging in a large control plane or opaque plugin ecosystem.
             </p>
           </div>
 
           <div class="feature-grid">
             <article class="feature-card" data-reveal>
               <span class="feature-icon blue"></span>
-              <h3>Scoped clients</h3>
-              <p>Attach multiple auth methods to each client and scope access to all services, selected services, or selected endpoints.</p>
+              <h3>Route-centric exposure</h3>
+              <p>Gateway paths, methods, strategies, and protection live on routes instead of being scattered across endpoint definitions.</p>
             </article>
             <article class="feature-card" data-reveal>
               <span class="feature-icon green"></span>
-              <h3>Trusted hooks</h3>
-              <p>Use <span class="mono">pre_call</span> and <span class="mono">external_service</span> for downstream preparation and custom validation flows.</p>
+              <h3>Scoped clients</h3>
+              <p>Attach multiple auth methods to each client and scope access to all services, selected services, or exact endpoints.</p>
             </article>
             <article class="feature-card" data-reveal>
               <span class="feature-icon yellow"></span>
+              <h3>Output control</h3>
+              <p>Shape responses with reusable output profiles, endpoint transforms, route envelopes, and safe custom logic.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <span class="feature-icon blue"></span>
+              <h3>Trusted hooks</h3>
+              <p>Use <span class="mono">pre_call</span> and <span class="mono">external_service</span> to fetch tokens, validate requests, and enrich downstream calls.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <span class="feature-icon green"></span>
               <h3>Built-in operations</h3>
-              <p>Admin UI, monitor table, JSON logs, live stream, and rotating file logs are part of the default product surface.</p>
+              <p>Live monitor, JSON logs, admin UI, audit trail, and daily rotating file logs ship as part of the product surface.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <span class="feature-icon yellow"></span>
+              <h3>Optional backends</h3>
+              <p>Keep config file-backed, or move state to Postgres. Add Redis only when distributed rate limiting and response caching matter.</p>
             </article>
           </div>
         </section>
@@ -260,22 +276,22 @@ services:
         <section class="section-split" id="control">
           <div class="content-card" data-reveal>
             <p class="eyebrow">Operational control</p>
-            <h2>Keep admin and monitor features close to the runtime.</h2>
+            <h2>Keep admin and monitor surfaces close to the runtime.</h2>
             <ul class="detail-list">
-              <li>File-backed users and roles with explicit permissions</li>
-              <li>Bootstrap admin support through environment variables</li>
-              <li>Live request visibility through HTML, JSON, and SSE endpoints</li>
-              <li>Daily file log rotation with SQLite-backed request history</li>
+              <li>Separate public and admin listeners by default</li>
+              <li>Live request visibility through HTML, JSON, and SSE monitor endpoints</li>
+              <li>Admin audit log for service, route, client, and security changes</li>
+              <li>File-backed or Postgres-backed state with in-memory runtime snapshots</li>
             </ul>
           </div>
 
           <div class="content-card tone-blue" data-reveal>
             <p class="eyebrow">Request lifecycle</p>
             <ol class="timeline">
-              <li>Match the incoming method and path.</li>
-              <li>Resolve client scope and authenticate the request.</li>
-              <li>Run trusted hook code when configured.</li>
-              <li>Render templates, proxy upstream, and record monitoring data.</li>
+              <li>Match the incoming method and path to a route.</li>
+              <li>Resolve route targets and enforce route-level protection.</li>
+              <li>Run trusted hook code, rate limits, and cache checks.</li>
+              <li>Proxy upstream, shape output, and record monitor data.</li>
             </ol>
           </div>
         </section>
@@ -283,15 +299,15 @@ services:
         <section class="section-strip alt" id="config">
           <div class="section-heading narrow" data-reveal>
             <p class="eyebrow">Config model</p>
-            <h2>Readable enough to review in a pull request.</h2>
+            <h2>Readable enough to review in a pull request, explicit enough to debug at 2 AM.</h2>
           </div>
 
           <div class="config-layout">
             <article class="config-panel" data-reveal>
               <pre><code>clients:
-  - code: partner_ops
+  - slug: partner-ops
+    code: partner_ops
     title: Partner Operations
-    enabled: true
     access:
       mode: endpoints
       endpoints:
@@ -301,69 +317,160 @@ services:
       - code: partner_oauth
         type: oauth_client_credentials
         client_id: demo-client-id
-        client_secret: demo-client-secret</code></pre>
+        client_secret: demo-client-secret
+
+routes:
+  - slug: protected-headers
+    gateway_path: /demo/headers
+    auth: { required: true }</code></pre>
             </article>
 
             <article class="config-notes" data-reveal>
-              <h3>What stays simple</h3>
+              <h3>What stays explicit</h3>
               <div class="note-list">
                 <div>
                   <strong>One top-level client model</strong>
-                  <p>No service-local client blocks to track down later.</p>
+                  <p>No service-local client blocks to hunt down later.</p>
                 </div>
                 <div>
-                  <strong>Service auth is binary</strong>
-                  <p>Protected or public, with scope handled by client access rules.</p>
+                  <strong>Protection follows the route</strong>
+                  <p>Auth requirements stay with the public gateway path that operators actually expose.</p>
                 </div>
                 <div>
-                  <strong>Config validation is strict</strong>
-                  <p>Deprecated shapes and broken access references are rejected early.</p>
+                  <strong>Cache precedence is visible</strong>
+                  <p>Endpoint first, then service, then route, with optional Redis when the hot path grows beyond one process.</p>
+                </div>
+                <div>
+                  <strong>Reverse proxy aware</strong>
+                  <p>Trusted proxy IPs, separate admin URLs, and public versus admin listeners are all part of the runtime contract.</p>
                 </div>
               </div>
             </article>
           </div>
         </section>
 
-        <section class="section-strip" id="deploy">
+        <section class="section-strip" id="install">
           <div class="section-heading narrow" data-reveal>
-            <p class="eyebrow">Deployment</p>
-            <h2>Publish the product site anywhere. Run the gateway wherever you already operate.</h2>
+            <p class="eyebrow">Install</p>
+            <h2>Pick the install path that matches how your team already ships software.</h2>
+            <p>
+              The fastest path is the published Docker image. If you want the full repo workflow,
+              NapiGate also ships a runtime Compose stack and a direct Python entrypoint.
+            </p>
           </div>
 
           <div class="deploy-grid">
             <article class="deploy-card" data-reveal>
-              <h3>Local</h3>
-              <pre><code>cp config/services.example.yaml config/services.yaml
-cp config/security.example.yaml config/security.yaml
-python3 -m gateway.main --host 0.0.0.0 --port 8000</code></pre>
+              <p class="card-kicker">Recommended</p>
+              <h3>Run the published Docker image</h3>
+              <p>Use the image directly from Docker Hub when you want the shortest path from download to a running gateway.</p>
+              <pre><code>mkdir -p napigate/{config,data,logs}
+curl -L https://raw.githubusercontent.com/napigate/napigate/main/config/services.example.yaml -o napigate/config/services.yaml
+curl -L https://raw.githubusercontent.com/napigate/napigate/main/config/security.example.yaml -o napigate/config/security.yaml
+
+docker run -d --name napigate \
+  -p 8000:8000 -p 8001:8001 \
+  -v "$PWD/napigate/config:/code/config" \
+  -v "$PWD/napigate/data:/code/data" \
+  -v "$PWD/napigate/logs:/code/logs" \
+  -e NAPIGATE_ADMIN_USERNAME=admin \
+  -e NAPIGATE_ADMIN_PASSWORD=change-me \
+  napigate/napigate:latest</code></pre>
+              <div class="card-actions">
+                <a class="inline-link" href="https://hub.docker.com/repository/docker/napigate/napigate/general">Open Docker Hub</a>
+              </div>
             </article>
+
             <article class="deploy-card" data-reveal>
-              <h3>Docker</h3>
-              <pre><code>cp .env.example .env
+              <p class="card-kicker">Repo runtime</p>
+              <h3>Use Docker Compose from source</h3>
+              <p>Clone the main repo when you want the published runtime image plus the full local config, data, and logs layout.</p>
+              <pre><code>git clone https://github.com/napigate/napigate.git
+cd napigate
+cp .env.example .env
 cp config/services.example.yaml config/services.yaml
 cp config/security.example.yaml config/security.yaml
-docker compose up -d --build</code></pre>
+docker compose pull
+docker compose up -d</code></pre>
+              <div class="card-actions">
+                <a class="inline-link" href="https://github.com/napigate/napigate">View main repository</a>
+              </div>
             </article>
+
             <article class="deploy-card" data-reveal>
-              <h3>Static landing</h3>
-              <p>This site is plain HTML, CSS, and JS, published at <span class="mono">napigate.com</span> from the NapiGate GitHub repository.</p>
-              <a class="inline-link" href="https://github.com/napigate/napigate">View repository</a>
+              <p class="card-kicker">Source install</p>
+              <h3>Run from Python</h3>
+              <p>Install locally when you want to hack on the gateway itself, step through runtime behavior, or package your own image.</p>
+              <pre><code>git clone https://github.com/napigate/napigate.git
+cd napigate
+pip install .
+cp config/services.example.yaml config/services.yaml
+cp config/security.example.yaml config/security.yaml
+python3 -m gateway.main \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --admin-host 0.0.0.0 \
+  --admin-port 8001 \
+  --config config/services.yaml \
+  --security-config config/security.yaml</code></pre>
             </article>
+
+            <article class="deploy-card" data-reveal>
+              <p class="card-kicker">Optional backends</p>
+              <h3>Turn on Postgres or Redis only when you need them</h3>
+              <p>Keep the default install light, then add state or distributed cache backends when your operational footprint grows.</p>
+              <pre><code># Optional Postgres-backed state
+docker compose --profile postgres up -d
+
+# In .env
+NAPIGATE_STATE_STORE=postgres
+NAPIGATE_POSTGRES_DSN=postgresql://napigate:napigate@postgres:5432/napigate
+
+# Optional Redis-backed cache and rate limiting
+NAPIGATE_REDIS_URL=redis://localhost:6379/0</code></pre>
+            </article>
+          </div>
+
+          <div class="section-split install-notes">
+            <div class="content-card" data-reveal>
+              <p class="eyebrow">After boot</p>
+              <h2>Know where each surface lives.</h2>
+              <ul class="detail-list">
+                <li>Public health: <span class="mono">http://127.0.0.1:8000/__health</span></li>
+                <li>OAuth token endpoint: <span class="mono">http://127.0.0.1:8000/__oauth/token</span></li>
+                <li>Admin UI: <span class="mono">http://127.0.0.1:8001/__admin</span></li>
+                <li>Monitor UI: <span class="mono">http://127.0.0.1:8001/__monitor</span></li>
+              </ul>
+            </div>
+
+            <div class="content-card tone-blue" data-reveal>
+              <p class="eyebrow">Why the split matters</p>
+              <h2>Keep admin off the public port.</h2>
+              <p>
+                NapiGate does not expose <span class="mono">/__admin</span>,
+                <span class="mono">/__monitor</span>, or <span class="mono">/__logout</span>
+                on the public listener. That makes firewall and reverse-proxy isolation much simpler.
+              </p>
+            </div>
           </div>
         </section>
 
         <section class="cta-band" data-reveal>
           <div>
             <p class="eyebrow">For teams that still read their own infrastructure</p>
-            <h2>NapiGate keeps the gateway understandable.</h2>
+            <h2>NapiGate keeps the gateway understandable from install to production.</h2>
           </div>
-          <a class="button button-primary" href="https://github.com/napigate/napigate">Deploy NapiGate</a>
+          <div class="cta-actions">
+            <a class="button button-primary" href="https://hub.docker.com/repository/docker/napigate/napigate/general">Run the image</a>
+            <a class="button button-secondary" href="https://github.com/napigate/napigate">Read the source</a>
+          </div>
         </section>
       </main>
 
       <footer class="footer">
         <p><a class="inline-link" href="https://napigate.com/">napigate.com</a></p>
-        <p><span id="year"></span> • <a class="inline-link" href="https://github.com/napigate/napigate">github.com/napigate/napigate</a></p>
+        <p><a class="inline-link" href="https://github.com/napigate/napigate">github.com/napigate/napigate</a></p>
+        <p><span id="year"></span> | <a class="inline-link" href="https://github.com/napigate/landing">landing source</a></p>
       </footer>
     </div>
 
