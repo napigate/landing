@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NapiGate | Route-Centric API Gateway</title>
+    <title>NapiGate | Route-Centric API Gateway With HTTP and gRPC Upstreams</title>
     <meta
       name="description"
-      content="NapiGate is a lightweight, route-centric API gateway with scoped clients, built-in admin and monitor surfaces, published Docker images, and optional Postgres or Redis backends."
+      content="NapiGate is a lightweight, route-centric API gateway with explicit protocol types, HTTP ingress, gRPC upstream support, built-in admin and monitor surfaces, published Docker images, and optional Postgres or Redis backends."
     >
     <meta name="theme-color" content="#1a73e8">
     <link rel="canonical" href="https://napigate.com/">
@@ -15,7 +15,7 @@
     <meta property="og:url" content="https://napigate.com/">
     <meta
       property="og:description"
-      content="Install a readable API gateway in minutes with the published napigate/napigate Docker image or from source."
+      content="Install a readable API gateway in minutes with the published napigate/napigate Docker image, then route HTTP traffic to HTTP or gRPC upstreams with an explicit protocol contract."
     >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,6 +53,7 @@
 
         <nav class="nav" id="site-nav">
           <a href="#product">Overview</a>
+          <a href="#coverage">Coverage</a>
           <a href="#control">Operations</a>
           <a href="#config">Config</a>
           <a href="#install">Install</a>
@@ -64,12 +65,15 @@
       <main id="top">
         <section class="hero">
           <div class="hero-copy" data-reveal>
-            <p class="eyebrow">Published Docker image. Built-in control plane. Config you can still read later.</p>
+            <p class="eyebrow">Published Docker image. Built-in control plane. Protocols made explicit.</p>
             <h1>Install a real API gateway without adopting a platform.</h1>
             <p class="lead">
               NapiGate keeps the edge small and explicit: route-level protection, scoped clients,
               multiple auth methods, output profiles, response caching, trusted hooks, built-in
               monitor surfaces, and a published Docker image at <span class="mono">napigate/napigate</span>.
+              It keeps HTTP ingress simple, supports HTTP and gRPC upstream execution today, and
+              carries an explicit protocol catalog for services and routes so coverage does not
+              collapse into one vague “HTTP-only” bucket.
             </p>
             <div class="hero-actions">
               <a class="button button-primary" href="https://hub.docker.com/repository/docker/napigate/napigate/general">Run from Docker Hub</a>
@@ -79,6 +83,7 @@
               <span class="pill">Image: napigate/napigate</span>
               <span class="pill">Public port: 8000</span>
               <span class="pill">Admin port: 8001</span>
+              <span class="pill">HTTP ingress + gRPC upstreams</span>
               <span class="pill">State: file or Postgres</span>
             </div>
             <div class="hero-stats">
@@ -87,12 +92,12 @@
                 <span>route strategies</span>
               </div>
               <div class="stat-card">
-                <strong data-count="6">6</strong>
-                <span>supported auth types</span>
+                <strong data-count="7">7</strong>
+                <span>service protocol types</span>
               </div>
               <div class="stat-card">
                 <strong data-count="2">2</strong>
-                <span>listener surfaces by default</span>
+                <span>runtime transports implemented today</span>
               </div>
             </div>
           </div>
@@ -138,9 +143,9 @@
                       <small>single, failover, race, and round robin</small>
                     </article>
                     <article class="mini-panel">
-                      <p>Clients</p>
-                      <strong>31</strong>
-                      <small>scoped by service or exact endpoint</small>
+                      <p>Protocols</p>
+                      <strong>7 / 5</strong>
+                      <small>service and route protocol catalogs</small>
                     </article>
                     <article class="mini-panel">
                       <p>State</p>
@@ -158,15 +163,15 @@
                     </div>
                     <div class="activity-row">
                       <span class="status status-blue"></span>
-                      <span>public_ip_failover</span>
-                      <small>multi-target failover route</small>
+                      <span>hello_grpc</span>
+                      <small>HTTP route into a unary gRPC upstream</small>
                       <strong>200</strong>
                     </div>
                     <div class="activity-row">
                       <span class="status status-yellow"></span>
-                      <span>admin_audit</span>
-                      <small>separate admin listener on port 8001</small>
-                      <strong>OK</strong>
+                      <span>ws_demo</span>
+                      <small>declared protocol stays visible until runtime support lands</small>
+                      <strong>501</strong>
                     </div>
                   </div>
 
@@ -181,24 +186,24 @@
                   <div class="preview-head">
                     <div>
                       <p class="mini-label">Route contract</p>
-                      <h3>Protection, targets, and output stay with the route.</h3>
+                      <h3>Protection, targets, output, and protocol stay explicit.</h3>
                     </div>
                     <span class="pill">Validated</span>
                   </div>
                   <pre><code>routes:
-  - slug: protected-headers
-    gateway_path: /demo/headers
-    methods: [GET]
+  - slug: hello-grpc
+    protocol: http
+    gateway_path: /demo/grpc/hello
+    methods: [POST]
     strategy: single
-    auth: { required: true }
-    output_profile: standard_json
     targets:
-      - service: protected_httpbin
-        endpoint: protected_headers
+      - service: greeter_grpc
+        endpoint: say_hello
 
 services:
-  protected_httpbin:
-    base_url: https://httpbin.org</code></pre>
+  greeter_grpc:
+    protocol: grpc
+    target: localhost:50051</code></pre>
                 </div>
               </div>
 
@@ -223,6 +228,9 @@ docker run -d --name napigate \
   -e NAPIGATE_ADMIN_USERNAME=admin \
   -e NAPIGATE_ADMIN_PASSWORD=change-me \
   napigate/napigate:latest</code></pre>
+                  <div class="chip-row">
+                    <span>Image includes Redis, Postgres, and gRPC extras</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -247,28 +255,129 @@ docker run -d --name napigate \
             </article>
             <article class="feature-card" data-reveal>
               <span class="feature-icon green"></span>
+              <h3>Protocol-aware contract</h3>
+              <p>Service and route protocol types stay explicit, so HTTP, gRPC, WebSocket, gRPC-Web, HTTP/3, TCP, and UDP are not flattened into one vague upstream shape.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <span class="feature-icon yellow"></span>
               <h3>Scoped clients</h3>
               <p>Attach multiple auth methods to each client and scope access to all services, selected services, or exact endpoints.</p>
             </article>
             <article class="feature-card" data-reveal>
-              <span class="feature-icon yellow"></span>
+              <span class="feature-icon blue"></span>
               <h3>Output control</h3>
               <p>Shape responses with reusable output profiles, endpoint transforms, route envelopes, and safe custom logic.</p>
             </article>
             <article class="feature-card" data-reveal>
-              <span class="feature-icon blue"></span>
+              <span class="feature-icon green"></span>
               <h3>Trusted hooks</h3>
               <p>Use <span class="mono">pre_call</span> and <span class="mono">external_service</span> to fetch tokens, validate requests, and enrich downstream calls.</p>
             </article>
             <article class="feature-card" data-reveal>
-              <span class="feature-icon green"></span>
+              <span class="feature-icon yellow"></span>
               <h3>Built-in operations</h3>
               <p>Live monitor, JSON logs, admin UI, audit trail, and daily rotating file logs ship as part of the product surface.</p>
             </article>
             <article class="feature-card" data-reveal>
-              <span class="feature-icon yellow"></span>
+              <span class="feature-icon blue"></span>
               <h3>Optional backends</h3>
               <p>Keep config file-backed, or move state to Postgres. Add Redis only when distributed rate limiting and response caching matter.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-strip" id="coverage">
+          <div class="section-heading narrow" data-reveal>
+            <p class="eyebrow">Coverage</p>
+            <h2>Broader protocol coverage, without pretending every transport is identical.</h2>
+            <p>
+              NapiGate now keeps an APISIX-inspired protocol catalog visible in config and admin.
+              The runtime is deliberately honest: HTTP ingress is the stable edge today, and
+              actual execution currently covers HTTP upstreams plus unary gRPC upstreams.
+            </p>
+          </div>
+
+          <div class="compat-grid">
+            <article class="compat-card" data-reveal>
+              <span class="pill pill-blue">Available now</span>
+              <h3>REST and JSON APIs</h3>
+              <p>Match routes by method and path, inject headers and query values, shape output, and cache successful responses.</p>
+            </article>
+
+            <article class="compat-card" data-reveal>
+              <span class="pill pill-blue">Available now</span>
+              <h3>GraphQL over HTTP</h3>
+              <p>Front GraphQL services like any other HTTP target when you need auth, monitoring, route scoping, or admin visibility at the edge.</p>
+            </article>
+
+            <article class="compat-card" data-reveal>
+              <span class="pill pill-blue">Available now</span>
+              <h3>Webhooks and callbacks</h3>
+              <p>Accept inbound partner traffic and trigger downstream async success hooks or structured log forwarding after successful gateway responses.</p>
+            </article>
+
+            <article class="compat-card" data-reveal>
+              <span class="pill pill-blue">Available now</span>
+              <h3>Unary gRPC upstreams</h3>
+              <p>Keep HTTP on the public side while calling gRPC services behind the route with reflection or descriptor-set backed method resolution.</p>
+            </article>
+
+            <article class="compat-card" data-reveal>
+              <span class="pill pill-blue">Available now</span>
+              <h3>SOAP, XML, and form-encoded flows</h3>
+              <p>Keep the gateway contract readable while proxying legacy HTTP integrations that still rely on XML bodies, headers, cookies, or form fields.</p>
+            </article>
+
+            <article class="compat-card" data-reveal>
+              <span class="pill pill-blue">Available now</span>
+              <h3>Token brokers and auth facades</h3>
+              <p>Use <span class="mono">pre_call</span> and <span class="mono">external_service</span> to fetch tokens, validate credentials, or bridge awkward auth flows.</p>
+            </article>
+
+            <article class="compat-card" data-reveal>
+              <span class="pill">Declared today</span>
+              <h3>WebSocket, gRPC-Web, and HTTP/3</h3>
+              <p>These protocol types are already first-class in the config and admin contract so future runtime work does not start from a route model that only understood plain HTTP.</p>
+            </article>
+
+            <article class="compat-card" data-reveal>
+              <span class="pill">Declared today</span>
+              <h3>TCP and UDP upstream classes</h3>
+              <p>Service protocol types also cover lower-level stream shapes. Unsupported transports fail loudly instead of being mislabeled as ordinary HTTP.</p>
+            </article>
+          </div>
+
+          <div class="section-split coverage-summary">
+            <article class="content-card" data-reveal>
+              <p class="eyebrow">Protocol catalog</p>
+              <h2>Keep protocol intent readable in the config itself.</h2>
+              <div class="chip-row">
+                <span>Services: http</span>
+                <span>grpc</span>
+                <span>websocket</span>
+                <span>grpc_web</span>
+                <span>http3</span>
+                <span>tcp</span>
+                <span>udp</span>
+              </div>
+              <div class="chip-row">
+                <span>Routes: http</span>
+                <span>websocket</span>
+                <span>grpc</span>
+                <span>grpc_web</span>
+                <span>http3</span>
+              </div>
+            </article>
+
+            <article class="content-card tone-blue" data-reveal>
+              <p class="eyebrow">Runtime truth</p>
+              <h2>Support is explicit, and so are the gaps.</h2>
+              <ul class="detail-list">
+                <li>Implemented: <span class="mono">route=http -&gt; service=http</span></li>
+                <li>Implemented: <span class="mono">route=http -&gt; service=grpc</span></li>
+                <li>Declared but not executed yet: WebSocket, gRPC ingress, gRPC-Web, HTTP/3, TCP, UDP</li>
+                <li>Unsupported protocol matches return <span class="mono">501</span> instead of silently faking HTTP semantics.</li>
+              </ul>
             </article>
           </div>
         </section>
@@ -282,6 +391,7 @@ docker run -d --name napigate \
               <li>Live request visibility through HTML, JSON, and SSE monitor endpoints</li>
               <li>Admin audit log for service, route, client, and security changes</li>
               <li>File-backed or Postgres-backed state with in-memory runtime snapshots</li>
+              <li>Protocol catalog visible in the same admin surface that operators already use</li>
             </ul>
           </div>
 
@@ -291,7 +401,7 @@ docker run -d --name napigate \
               <li>Match the incoming method and path to a route.</li>
               <li>Resolve route targets and enforce route-level protection.</li>
               <li>Run trusted hook code, rate limits, and cache checks.</li>
-              <li>Proxy upstream, shape output, and record monitor data.</li>
+              <li>Execute the configured upstream transport, shape output, and record monitor data.</li>
             </ol>
           </div>
         </section>
@@ -320,9 +430,15 @@ docker run -d --name napigate \
         client_secret: demo-client-secret
 
 routes:
-  - slug: protected-headers
-    gateway_path: /demo/headers
-    auth: { required: true }</code></pre>
+  - slug: hello-grpc
+    protocol: http
+    gateway_path: /demo/grpc/hello
+    auth: { required: true }
+
+services:
+  greeter_grpc:
+    protocol: grpc
+    target: localhost:50051</code></pre>
             </article>
 
             <article class="config-notes" data-reveal>
@@ -337,12 +453,20 @@ routes:
                   <p>Auth requirements stay with the public gateway path that operators actually expose.</p>
                 </div>
                 <div>
+                  <strong>Protocols stay declared</strong>
+                  <p>Service and route protocol types stay visible in admin and YAML instead of getting lost behind generic base_url fields.</p>
+                </div>
+                <div>
                   <strong>Cache precedence is visible</strong>
                   <p>Endpoint first, then service, then route, with optional Redis when the hot path grows beyond one process.</p>
                 </div>
                 <div>
                   <strong>Reverse proxy aware</strong>
                   <p>Trusted proxy IPs, separate admin URLs, and public versus admin listeners are all part of the runtime contract.</p>
+                </div>
+                <div>
+                  <strong>Unsupported does not masquerade as supported</strong>
+                  <p>Declared but unimplemented protocol matches fail with a direct <span class="mono">501</span> instead of half-working under HTTP assumptions.</p>
                 </div>
               </div>
             </article>
@@ -404,6 +528,8 @@ docker compose up -d</code></pre>
               <pre><code>git clone https://github.com/napigate/napigate.git
 cd napigate
 pip install .
+# Optional when you want local gRPC upstream support outside Docker:
+# pip install ".[grpc]"
 cp config/services.example.yaml config/services.yaml
 cp config/security.example.yaml config/security.yaml
 python3 -m gateway.main \
@@ -417,8 +543,8 @@ python3 -m gateway.main \
 
             <article class="deploy-card" data-reveal>
               <p class="card-kicker">Optional backends</p>
-              <h3>Turn on Postgres or Redis only when you need them</h3>
-              <p>Keep the default install light, then add state or distributed cache backends when your operational footprint grows.</p>
+              <h3>Turn on Postgres, Redis, or source-side gRPC extras only when you need them</h3>
+              <p>Keep the default install light, then add state, distributed caching, or local development extras when your operational footprint grows.</p>
               <pre><code># Optional Postgres-backed state
 docker compose --profile postgres up -d
 
@@ -427,7 +553,10 @@ NAPIGATE_STATE_STORE=postgres
 NAPIGATE_POSTGRES_DSN=postgresql://napigate:napigate@postgres:5432/napigate
 
 # Optional Redis-backed cache and rate limiting
-NAPIGATE_REDIS_URL=redis://localhost:6379/0</code></pre>
+NAPIGATE_REDIS_URL=redis://localhost:6379/0
+
+# Optional local source extras for gRPC upstream work
+pip install ".[grpc]"</code></pre>
             </article>
           </div>
 

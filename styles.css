@@ -626,6 +626,7 @@ code {
 
 .feature-grid,
 .section-split,
+.compat-grid,
 .config-layout,
 .deploy-grid {
   display: grid;
@@ -636,12 +637,33 @@ code {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.compat-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .feature-card,
+.compat-card,
 .content-card,
 .config-panel,
 .config-notes,
 .deploy-card {
   padding: 24px;
+}
+
+.compat-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+  box-shadow: var(--shadow-soft);
+}
+
+.compat-card h3 {
+  margin: 16px 0 10px;
+  font-size: 1.2rem;
+}
+
+.compat-card p {
+  margin: 0;
 }
 
 .feature-icon {
@@ -802,6 +824,7 @@ code {
   .hero,
   .feature-grid,
   .section-split,
+  .compat-grid,
   .config-layout,
   .deploy-grid {
     grid-template-columns: 1fr;
